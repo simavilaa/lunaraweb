@@ -1,3 +1,5 @@
+import AnimateIn from "./AnimateIn";
+
 const pasos = [
   {
     num: "01",
@@ -25,7 +27,7 @@ export default function Proceso() {
   return (
     <section id="proceso" className="py-24 bg-[#F4F4F5]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <AnimateIn className="text-center mb-16">
           <span className="inline-block text-[#7C3AED] text-sm font-semibold tracking-widest uppercase mb-3">
             Cómo trabajo
           </span>
@@ -35,19 +37,19 @@ export default function Proceso() {
           <p className="text-gray-600 text-lg max-w-xl mx-auto">
             Cuatro pasos desde que me escribís hasta que el problema está resuelto.
           </p>
-        </div>
+        </AnimateIn>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {pasos.map((paso) => (
-            <article key={paso.num} className="bg-white rounded-[16px] p-6 border border-gray-200 h-full">
-              <span className="font-mono text-4xl font-bold text-[#7C3AED]/20 block mb-3 leading-none">
-                {paso.num}
-              </span>
-              <h3 className="font-semibold text-[#1A1A2E] text-base mb-2">
-                {paso.title}
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{paso.desc}</p>
-            </article>
+          {pasos.map((paso, i) => (
+            <AnimateIn key={paso.num} delay={i * 100}>
+              <article className="bg-white rounded-[16px] p-6 border border-gray-200 h-full">
+                <span className="font-mono text-4xl font-bold text-[#7C3AED]/20 block mb-3 leading-none">
+                  {paso.num}
+                </span>
+                <h3 className="font-semibold text-[#1A1A2E] text-base mb-2">{paso.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{paso.desc}</p>
+              </article>
+            </AnimateIn>
           ))}
         </div>
       </div>

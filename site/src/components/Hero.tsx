@@ -1,4 +1,59 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Logo from "./Logo";
+
+function GrainCanvas() {
+  const ref = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Canvas chico escalado con CSS — muy performante
+    canvas.width = 256;
+    canvas.height = 256;
+
+    let raf: number;
+    let tick = 0;
+
+    const draw = () => {
+      tick++;
+      if (tick % 3 === 0) {
+        const img = ctx.createImageData(256, 256);
+        for (let i = 0; i < img.data.length; i += 4) {
+          const v = (Math.random() * 255) | 0;
+          img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+          img.data[i + 3] = 255;
+        }
+        ctx.putImageData(img, 0, 0);
+      }
+      raf = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        opacity: 0.038,
+        mixBlendMode: "screen",
+        pointerEvents: "none",
+        zIndex: 2,
+      }}
+    />
+  );
+}
 
 export default function Hero() {
   return (
@@ -7,84 +62,100 @@ export default function Hero() {
       aria-label="Inicio"
     >
       <style>{`
-        @keyframes lunara-grain {
-          0%   { transform: translate(0, 0) }
-          10%  { transform: translate(-2%, -3%) }
-          20%  { transform: translate(3%, 2%) }
-          30%  { transform: translate(-1%, 3%) }
-          40%  { transform: translate(2%, -2%) }
-          50%  { transform: translate(-3%, 1%) }
-          60%  { transform: translate(1%, -3%) }
-          70%  { transform: translate(3%, 3%) }
-          80%  { transform: translate(-2%, 2%) }
-          90%  { transform: translate(2%, -1%) }
-          100% { transform: translate(0, 0) }
+        @keyframes blob1 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          33%       { transform: translate(80px, -60px) scale(1.12); }
+          66%       { transform: translate(-50px, 40px) scale(0.93); }
         }
-        @keyframes lunara-glow-breathe {
-          0%, 100% { opacity: 0.12; transform: translate(-50%, -50%) scale(1); }
-          50%       { opacity: 0.22; transform: translate(-50%, -50%) scale(1.15); }
+        @keyframes blob2 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          40%       { transform: translate(-70px, 60px) scale(1.1); }
+          70%       { transform: translate(55px, -35px) scale(0.9); }
         }
-        @keyframes lunara-glow-drift {
-          0%, 100% { opacity: 0.06; transform: translate(-30%, -60%) scale(1); }
-          50%       { opacity: 0.13; transform: translate(-70%, -40%) scale(1.2); }
+        @keyframes blob3 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          50%       { transform: translate(50px, 70px) scale(1.15); }
         }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0px); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.88); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        .h-logo { animation: fadeIn 0.9s cubic-bezier(.22,1,.36,1) both 0.1s; }
+        .h-h1   { animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) both 0.35s; }
+        .h-tag  { animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) both 0.55s; }
+        .h-sub  { animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) both 0.72s; }
+        .h-cta  { animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) both 0.88s; }
       `}</style>
 
-      {/* Grain animado — textura tipo 35mm */}
+      {/* Blob 1 — grande, centro-arriba */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
-          top: "-2.5%",
-          left: "-2.5%",
-          width: "105%",
-          height: "105%",
-          opacity: 0.06,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "200px 200px",
-          animation: "lunara-grain 8s steps(1) infinite",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Glow principal — respira */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
+          top: "5%",
+          left: "25%",
           width: "700px",
           height: "700px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%)",
-          animation: "lunara-glow-breathe 6s ease-in-out infinite",
-          pointerEvents: "none",
+          background:
+            "radial-gradient(circle, rgba(124,58,237,0.28) 0%, transparent 70%)",
+          filter: "blur(48px)",
+          animation: "blob1 15s ease-in-out infinite",
+          willChange: "transform",
+          zIndex: 1,
         }}
       />
 
-      {/* Glow secundario — flota en diagonal */}
+      {/* Blob 2 — mediano, izquierda-abajo */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: "500px",
-          height: "500px",
+          top: "45%",
+          left: "-8%",
+          width: "550px",
+          height: "550px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(91,33,182,0.15) 0%, transparent 65%)",
-          animation: "lunara-glow-drift 9s ease-in-out infinite",
-          pointerEvents: "none",
+          background:
+            "radial-gradient(circle, rgba(91,33,182,0.22) 0%, transparent 65%)",
+          filter: "blur(60px)",
+          animation: "blob2 19s ease-in-out infinite",
+          willChange: "transform",
+          zIndex: 1,
         }}
       />
 
+      {/* Blob 3 — chico, derecha-arriba */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "-8%",
+          right: "-3%",
+          width: "420px",
+          height: "420px",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 60%)",
+          filter: "blur(52px)",
+          animation: "blob3 12s ease-in-out infinite",
+          willChange: "transform",
+          zIndex: 1,
+        }}
+      />
+
+      {/* Grain animado con canvas real */}
+      <GrainCanvas />
+
+      {/* Contenido */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        {/* Logo + nombre */}
-        <div className="flex flex-col items-center gap-4 mb-10">
+        <div className="h-logo flex flex-col items-center gap-4 mb-10">
           <Logo variant="color" size={72} />
-          <h1 className="font-serif text-white text-5xl sm:text-6xl md:text-7xl leading-none tracking-tight">
+          <h1 className="h-h1 font-serif text-white text-5xl sm:text-6xl md:text-7xl leading-none tracking-tight">
             lunara
             <span className="text-[#7C3AED] font-sans font-bold text-3xl sm:text-4xl align-super ml-1">
               IT
@@ -92,17 +163,15 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* Propuesta de valor */}
-        <p className="text-gray-300 text-xl sm:text-2xl md:text-3xl font-light leading-snug max-w-2xl mx-auto mb-4">
+        <p className="h-tag text-gray-300 text-xl sm:text-2xl md:text-3xl font-light leading-snug max-w-2xl mx-auto mb-4">
           Tecnología para personas y empresas.
         </p>
-        <p className="text-gray-500 text-base sm:text-lg max-w-xl mx-auto mb-12">
+        <p className="h-sub text-gray-500 text-base sm:text-lg max-w-xl mx-auto mb-12">
           Desde reparar tu PC hasta montar la red de tu empresa.
           Un técnico real, en CABA y zona norte.
         </p>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="h-cta flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="https://wa.me/5491100000000"
             target="_blank"
@@ -122,7 +191,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Flecha scroll */}
       <div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-gray-600"
         aria-hidden="true"

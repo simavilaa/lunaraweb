@@ -1,3 +1,5 @@
+import AnimateIn from "./AnimateIn";
+
 const particulares = [
   {
     icon: <WrenchIcon />,
@@ -38,7 +40,7 @@ export default function Servicios() {
   return (
     <section id="servicios" className="py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <AnimateIn className="text-center mb-16">
           <span className="inline-block text-[#7C3AED] text-sm font-semibold tracking-widest uppercase mb-3">
             Servicios
           </span>
@@ -48,30 +50,36 @@ export default function Servicios() {
           <p className="text-gray-600 text-lg max-w-xl mx-auto">
             Desde la PC de tu casa hasta la infraestructura de tu empresa.
           </p>
-        </div>
+        </AnimateIn>
 
-        {/* Particulares */}
         <div className="mb-16">
-          <h3 className="text-[#1A1A2E] font-semibold text-lg mb-6 flex items-center gap-2">
-            <span className="w-6 h-0.5 bg-[#7C3AED] block" aria-hidden="true" />
-            Para particulares y hogares
-          </h3>
+          <AnimateIn delay={50}>
+            <h3 className="text-[#1A1A2E] font-semibold text-lg mb-6 flex items-center gap-2">
+              <span className="w-6 h-0.5 bg-[#7C3AED] block" aria-hidden="true" />
+              Para particulares y hogares
+            </h3>
+          </AnimateIn>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {particulares.map((s) => (
-              <ServiceCard key={s.title} {...s} />
+            {particulares.map((s, i) => (
+              <AnimateIn key={s.title} delay={100 + i * 80}>
+                <ServiceCard {...s} />
+              </AnimateIn>
             ))}
           </div>
         </div>
 
-        {/* Empresas */}
         <div>
-          <h3 className="text-[#1A1A2E] font-semibold text-lg mb-6 flex items-center gap-2">
-            <span className="w-6 h-0.5 bg-[#7C3AED] block" aria-hidden="true" />
-            Para empresas y comercios
-          </h3>
+          <AnimateIn delay={50}>
+            <h3 className="text-[#1A1A2E] font-semibold text-lg mb-6 flex items-center gap-2">
+              <span className="w-6 h-0.5 bg-[#7C3AED] block" aria-hidden="true" />
+              Para empresas y comercios
+            </h3>
+          </AnimateIn>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {empresas.map((s) => (
-              <ServiceCard key={s.title} {...s} />
+            {empresas.map((s, i) => (
+              <AnimateIn key={s.title} delay={100 + i * 80}>
+                <ServiceCard {...s} />
+              </AnimateIn>
             ))}
           </div>
         </div>
@@ -80,17 +88,9 @@ export default function Servicios() {
   );
 }
 
-function ServiceCard({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-}) {
+function ServiceCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
-    <article className="group bg-[#FAFAFA] hover:bg-[#EDE9FE] border border-gray-200 hover:border-[#7C3AED]/30 rounded-[16px] p-6 transition-all duration-200">
+    <article className="group bg-[#FAFAFA] hover:bg-[#EDE9FE] border border-gray-200 hover:border-[#7C3AED]/30 rounded-[16px] p-6 transition-all duration-200 h-full">
       <div className="w-10 h-10 rounded-[10px] bg-[#EDE9FE] group-hover:bg-white flex items-center justify-center text-[#7C3AED] mb-4 transition-colors duration-200">
         {icon}
       </div>
@@ -107,54 +107,39 @@ function WrenchIcon() {
     </svg>
   );
 }
-
 function CpuIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="4" y="4" width="16" height="16" rx="2" />
-      <rect x="9" y="9" width="6" height="6" />
-      <line x1="9" y1="1" x2="9" y2="4" />
-      <line x1="15" y1="1" x2="15" y2="4" />
-      <line x1="9" y1="20" x2="9" y2="23" />
-      <line x1="15" y1="20" x2="15" y2="23" />
-      <line x1="20" y1="9" x2="23" y2="9" />
-      <line x1="20" y1="14" x2="23" y2="14" />
-      <line x1="1" y1="9" x2="4" y2="9" />
-      <line x1="1" y1="14" x2="4" y2="14" />
+      <rect x="4" y="4" width="16" height="16" rx="2" /><rect x="9" y="9" width="6" height="6" />
+      <line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" />
+      <line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" />
+      <line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="14" x2="23" y2="14" />
+      <line x1="1" y1="9" x2="4" y2="9" /><line x1="1" y1="14" x2="4" y2="14" />
     </svg>
   );
 }
-
 function UpgradeIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points="17 11 12 6 7 11" />
-      <line x1="12" y1="6" x2="12" y2="18" />
+      <polyline points="17 11 12 6 7 11" /><line x1="12" y1="6" x2="12" y2="18" />
     </svg>
   );
 }
-
 function NetworkIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="16" y="16" width="6" height="6" rx="1" />
-      <rect x="2" y="16" width="6" height="6" rx="1" />
-      <rect x="9" y="2" width="6" height="6" rx="1" />
-      <path d="M5 16v-4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v4" />
-      <line x1="12" y1="8" x2="12" y2="11" />
+      <rect x="16" y="16" width="6" height="6" rx="1" /><rect x="2" y="16" width="6" height="6" rx="1" /><rect x="9" y="2" width="6" height="6" rx="1" />
+      <path d="M5 16v-4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v4" /><line x1="12" y1="8" x2="12" y2="11" />
     </svg>
   );
 }
-
 function ShieldIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <polyline points="9 12 11 14 15 10" />
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><polyline points="9 12 11 14 15 10" />
     </svg>
   );
 }
-
 function SupportIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

@@ -1,8 +1,10 @@
+import AnimateIn from "./AnimateIn";
+
 export default function Contacto() {
   return (
     <section id="contacto" className="py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <AnimateIn className="text-center mb-16">
           <span className="inline-block text-[#7C3AED] text-sm font-semibold tracking-widest uppercase mb-3">
             Contacto
           </span>
@@ -13,28 +15,39 @@ export default function Contacto() {
             El canal más rápido es WhatsApp. También podés escribirme por mail o
             redes si preferís.
           </p>
-        </div>
+        </AnimateIn>
 
         <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-          <ContactCard
-            icon={<WhatsAppIcon />}
-            label="WhatsApp Business"
-            value="Escribime ahora"
-            href="https://wa.me/5491100000000"
-            primary
-          />
-          <ContactCard
-            icon={<MailIcon />}
-            label="Email"
-            value="hola@lunarait.com"
-            href="mailto:hola@lunarait.com"
-          />
-          <ContactCard
-            icon={<InstagramIcon />}
-            label="Instagram"
-            value="@lunarait"
-            href="https://instagram.com/lunarait"
-          />
+          {[
+            {
+              icon: <WhatsAppIcon />,
+              label: "WhatsApp Business",
+              value: "Escribime ahora",
+              href: "https://wa.me/5491100000000",
+              primary: true,
+              delay: 0,
+            },
+            {
+              icon: <MailIcon />,
+              label: "Email",
+              value: "hola@lunarait.com",
+              href: "mailto:hola@lunarait.com",
+              primary: false,
+              delay: 100,
+            },
+            {
+              icon: <InstagramIcon />,
+              label: "Instagram",
+              value: "@lunarait",
+              href: "https://instagram.com/lunarait",
+              primary: false,
+              delay: 200,
+            },
+          ].map((c) => (
+            <AnimateIn key={c.label} delay={c.delay}>
+              <ContactCard {...c} />
+            </AnimateIn>
+          ))}
         </div>
       </div>
     </section>
@@ -89,7 +102,6 @@ function WhatsAppIcon() {
     </svg>
   );
 }
-
 function MailIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -98,7 +110,6 @@ function MailIcon() {
     </svg>
   );
 }
-
 function InstagramIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
