@@ -1,87 +1,138 @@
+"use client";
+
 import AnimateIn from "./AnimateIn";
 
-const razones = [
+const puntos = [
   {
-    icon: <PersonIcon />,
-    title: "Hablás con el técnico directamente",
-    desc: "No hay intermediarios ni call centers. Me contás el problema, lo entiendo, y te doy una respuesta real.",
+    contra: "Desaparece después de cobrar",
+    pro:    "Quedo disponible por si algo pasa",
   },
   {
-    icon: <ClockIcon />,
-    title: "Sin vueltas y sin letra chica",
-    desc: "Presupuesto claro antes de tocar nada. Si no tiene solución viable, te lo digo. No cobro diagnósticos al pedo.",
+    contra: "Te habla en difícil, no entendés nada",
+    pro:    "Te explico todo claro, sin vueltas",
   },
   {
-    icon: <StarIcon />,
-    title: "Experiencia real, no improvisada",
-    desc: "Años trabajando con hardware, redes y sistemas. Diagnostico, planifico y ejecuto. Sin aprender a tu costa.",
+    contra: "Te cambia cosas que no hacían falta",
+    pro:    "Solo toco lo que hay que tocar",
   },
   {
-    icon: <MapIcon />,
-    title: "CABA y zona norte",
-    desc: "Atención presencial en toda CABA y zona norte del GBA, hasta Escobar. Soporte remoto para el resto del país.",
+    contra: "Presupuesto que después crece",
+    pro:    "Presupuesto claro de entrada",
+  },
+  {
+    contra: "Tarda días en contestarte",
+    pro:    "Respondo rápido cuando me escribís",
   },
 ];
 
 export default function PorQue() {
   return (
     <section id="por-que" className="py-24 bg-[#0F0E17] relative overflow-hidden">
+      {/* Ambient glow */}
       <div
         aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
         style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: "800px",
-          height: "400px",
-          borderRadius: "50%",
-          background: "radial-gradient(ellipse, rgba(124,58,237,0.08) 0%, transparent 70%)",
-          transform: "translate(-50%, -50%)",
-          pointerEvents: "none",
+          background:
+            "radial-gradient(ellipse 70% 50% at 60% 50%, rgba(124,58,237,0.07) 0%, transparent 70%)",
         }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
-        <AnimateIn className="text-center mb-16">
-          <span className="inline-block text-[#7C3AED] text-sm font-semibold tracking-widest uppercase mb-3">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+
+        {/* Header */}
+        <AnimateIn className="text-center mb-14">
+          <span className="inline-block text-[#7C3AED] text-xs font-semibold tracking-widest uppercase mb-4">
             Por qué Lunara
           </span>
           <h2 className="font-serif text-white text-4xl sm:text-5xl mb-4">
-            El técnico que querías tener
+            La diferencia se nota
           </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Sé lo frustrante que es no entender qué le pasa a tu equipo o que
-            te cobren de más sin explicarte nada.
+          <p className="text-gray-400 text-base max-w-md mx-auto leading-relaxed">
+            No es magia. Es tratar bien al cliente, explicar las cosas, y hacer el trabajo como corresponde.
           </p>
         </AnimateIn>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {razones.map((r, i) => (
-            <AnimateIn key={r.title} delay={i * 90}>
-              <article className="bg-white/5 border border-white/10 rounded-[16px] p-6 hover:bg-white/[0.08] transition-colors duration-200 h-full">
-                <div className="w-10 h-10 rounded-[10px] bg-[#7C3AED]/20 flex items-center justify-center text-[#7C3AED] mb-4">
-                  {r.icon}
-                </div>
-                <h3 className="text-white font-semibold text-base mb-2 leading-snug">{r.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{r.desc}</p>
-              </article>
-            </AnimateIn>
-          ))}
-        </div>
+        {/* Comparison table */}
+        <AnimateIn delay={120}>
+          <div className="flex flex-col md:flex-row">
+
+            {/* Left — El técnico promedio */}
+            <div className="flex-1 border border-white/10 md:rounded-l-2xl rounded-t-2xl md:rounded-tr-none bg-white/[0.025] overflow-hidden">
+              <div className="px-6 py-5 border-b border-white/10">
+                <span className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-500">
+                  El técnico promedio
+                </span>
+              </div>
+              <ul>
+                {puntos.map((p, i) => (
+                  <li
+                    key={i}
+                    className={`flex items-start gap-3 px-6 py-4 ${
+                      i < puntos.length - 1 ? "border-b border-white/[0.06]" : ""
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center"
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                        <path d="M2 2l6 6M8 2l-6 6" stroke="#6B7280" strokeWidth="1.8" strokeLinecap="round"/>
+                      </svg>
+                    </span>
+                    <span className="text-gray-500 text-sm leading-snug">{p.contra}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Right — Con Lunara */}
+            <div
+              className="flex-1 md:rounded-r-2xl rounded-b-2xl md:rounded-bl-none overflow-hidden"
+              style={{
+                border: "1.5px solid #7C3AED",
+                background: "linear-gradient(160deg, rgba(124,58,237,0.10) 0%, rgba(124,58,237,0.04) 100%)",
+                boxShadow: "0 0 48px rgba(124,58,237,0.18), inset 0 1px 0 rgba(124,58,237,0.25)",
+              }}
+            >
+              <div className="px-6 py-5 border-b border-[#7C3AED]/30">
+                <span className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#A78BFA]">
+                  Con Lunara
+                </span>
+              </div>
+              <ul>
+                {puntos.map((p, i) => (
+                  <li
+                    key={i}
+                    className={`flex items-start gap-3 px-6 py-4 ${
+                      i < puntos.length - 1 ? "border-b border-[#7C3AED]/15" : ""
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-[#7C3AED]/20 flex items-center justify-center"
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                        <path d="M1.5 5l3 3 4-6" stroke="#7C3AED" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                    <span className="text-white text-sm leading-snug font-medium">{p.pro}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
+        </AnimateIn>
+
+        {/* Closing quote */}
+        <AnimateIn delay={240} className="text-center mt-14">
+          <p className="font-serif italic text-gray-300 text-xl sm:text-2xl max-w-lg mx-auto leading-relaxed">
+            "Trabajo como me gustaría que me traten a mí."
+          </p>
+        </AnimateIn>
+
       </div>
     </section>
   );
-}
-
-function PersonIcon() {
-  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>;
-}
-function ClockIcon() {
-  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>;
-}
-function StarIcon() {
-  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>;
-}
-function MapIcon() {
-  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>;
 }
